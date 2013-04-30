@@ -1,7 +1,4 @@
-// This is a 'group' project where we were asked to make a program that uses queues in C++.
-// We (read 'I') made a decimal to binary and binary-hex-octal to decimal converter.
-// As you can see I did not use classes because I'm not too familiar with it. 
-// Maybe someday I'll make one using classes.
+
 
 #include <iostream>
 #include <queue>
