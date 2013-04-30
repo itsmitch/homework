@@ -1,0 +1,228 @@
+// This is a 'group' project where we were asked to make a program that uses queues in C++.
+// We (read 'I') made a decimal to binary and binary-hex-octal to decimal converter.
+// As you can see I did not use classes because I'm not too familiar with it. 
+// Maybe someday I'll make one using classes.
+
+#include <iostream>
+#include <queue>
+#include<string>
+using namespace std;
+
+
+queue <int> decToBin(int num)
+{
+    int remainder;
+    queue<int>binary;
+    while (num>0)
+        {
+            remainder=num%2;
+            num=num/2;
+            binary.push(remainder);
+        }
+    return binary;
+
+    }
+
+queue <int> flipQueue(queue <int> queue1)
+{
+    queue<int>queue2;
+    queue<int>queue3;
+    int a=queue1.size();
+        while(queue2.size()!=a)
+        {
+            queue2.push(queue1.back());
+            while(queue1.size()!=1)
+            {
+                queue3.push(queue1.front());
+                queue1.pop();
+            }
+            queue1.pop();
+            queue2.push(queue3.back());
+            while(queue3.size()!=1)
+            {
+                queue1.push(queue3.front());
+                queue3.pop();
+            }
+            queue3.pop();
+        }
+
+        return queue2;
+}
+
+int printQueue(queue<int>a)
+{
+    while(!a.empty())
+        {
+            cout<<a.front();
+            a.pop();
+        }
+}
+
+int binToDec(int number)
+{
+        int y=1;
+        int x=0;
+        queue<int>decimal;
+
+        while(number!=0)
+        {
+            x=number%10;
+            decimal.push(x);
+            number=number/10;
+        }
+
+        while(!decimal.empty())
+        {
+            number=number+(decimal.front() * y);
+            y*=2;
+            decimal.pop();
+        }
+        return number;
+}
+
+queue <int> hexToBin(char a)
+{
+    queue<int>b;
+    int c;
+    if(isdigit(a))
+    {
+        c=a-'0';
+        b=decToBin(c);
+        while(b.size()<4)
+        {
+            b.push(0);
+        }
+
+    }
+    else
+    {
+        switch (a)
+    {
+        case 'A':
+            c=10;
+            break;
+        case 'B':
+            c=11;
+            break;
+        case 'C':
+            c=12;
+            break;
+        case 'D':
+            c=13;
+            break;
+        case 'E':
+            c=14;
+            break;
+        case 'F':
+            c=15;
+    }
+        b=decToBin(c);
+    }
+    return b;
+}
+
+queue <int> octToBin(char a)
+{
+    queue <int> b;
+    int c;
+    c=a-'0';
+    b=decToBin(c);
+    while(b.size()<3)
+    {
+        b.push(0);
+    }
+
+    return b;
+
+}
+
+int main()
+{
+    int choice, number;
+    cout<<"Choose operation:"<<endl<<"1.Decimal to Binary\n2.Binary to Decimal\n3.Hex to Decimal\n4.Octal to Decimal"<<endl;
+    cin>>choice;
+
+
+
+
+    if(choice==1)
+    {
+        queue <int> bin;
+        cout<<"Please enter a decimal number\n";
+        cin>>number;
+        bin = decToBin(number);
+        bin = flipQueue(bin);
+        printQueue(bin);
+
+    }
+
+    else if(choice==2)
+    {
+        cout<<"Enter binary number"<<endl;
+        cin>>number;
+        cout<<binToDec(number)<<endl;
+    }
+
+    else if(choice==3)
+    {
+        queue <int> bin;
+        queue <int> temp;
+        string number;
+        int num=0,y=1;
+        cout<<"Enter Hex number"<<endl;
+        cin>>number;
+        for(int i=number.length()-1;i>=0;i--)
+        {
+            temp = hexToBin(number[i]);
+            while(!temp.empty())
+            {
+                bin.push(temp.front());
+                temp.pop();
+            }
+
+        }
+        while(!bin.empty())
+        {
+            num=num+(bin.front() * y);
+            y*=2;
+            bin.pop();
+        }
+
+        cout<<num;
+
+
+    }
+
+    else if(choice==4)
+    {
+        queue <int> bin;
+        queue <int> temp;
+        string number;
+        int num=0,y=1;
+        cout<<"Enter Octal number"<<endl;
+        cin>>number;
+        for(int i=number.length()-1;i>=0;i--)
+        {
+            temp = octToBin(number[i]);
+            while(!temp.empty())
+            {
+                bin.push(temp.front());
+                temp.pop();
+            }
+
+        }
+        while(!bin.empty())
+        {
+            num=num+(bin.front() * y);
+            y*=2;
+            bin.pop();
+        }
+
+        cout<<num;
+
+
+    }
+
+    return 0;
+}
+
