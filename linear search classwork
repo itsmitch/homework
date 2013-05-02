@@ -1,0 +1,79 @@
+/*
+Part A
+Write a program that allows the user to enter the last names of five candidates in a local election and the votes received by each candidate. The program should then output each candidate’s name, the votes received by that candidate, and the percentage of that total votes received by that candidate (write the appropriate formula to calculate % of total votes). Your program should also output the winner of the election. A Sample output is:
+Candidate                    Votes Received             % of the Total Votes
+Johnson                       5000                                                           25.91
+Miller                           4000                                                           20.72
+Duffy                           6000                                                            31.09
+Robinson                   2500                                                             12.95
+Ashton                       1800                                                             9.33
+Total                          19300                                               
+The winner is Duffy.
+Part B
+After further count, it was discovered that Robinson received 500 more votes than recorded. It was also reported that Miller’s final vote count is 3775 and not 4000. Use Linear search to find and update their vote counts. Display the final results
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    string name[5];
+    int vote[5],percent[5];
+    int totalVote=0, winner=0, winner1=0;
+
+    cout<<"enter candidate names"<<endl;
+    for (int i=0;i<5;i++)
+    cin>>name[i];
+
+    cout<<"enter candidate votes"<<endl;
+    for (int j=0;j<5;j++)
+    {
+        cin>>vote[j];
+        totalVote+=vote[j];
+        if(vote[j]>winner)
+        {
+            winner=vote[j];
+            winner1=j;
+        }
+    }
+
+    for(int k=0;k<5;k++)
+    percent[k]=(vote[k]*100)/totalVote;
+
+    for(int m=0;m<5;m++)
+    cout<<name[m]<<"\t"<<vote[m]<<"\t"<<percent[m]<<endl;
+    cout<<"the winner is "<<name[winner1]<<endl;
+    cout<<"\n";
+
+    //Part B
+
+    bool found=false, found1=false;
+    int p=0;
+    while(!found||!found1)
+    {
+        if(name[p]=="Robinson")
+        {
+            vote[p]=vote[p]+500;
+            found=true;
+        }
+        else if(name[p]=="Miller")
+        {
+            vote[p]=3775;
+            found1=true;
+        }
+
+        p++;
+
+    }
+
+    for(int k=0;k<5;k++)
+    percent[k]=(vote[k]*100)/totalVote;
+
+    for(int m=0;m<5;m++)
+    cout<<name[m]<<"\t"<<vote[m]<<"\t"<<percent[m]<<endl;
+    cout<<"the winner is "<<name[winner1];
+
+    return 0;
+}
